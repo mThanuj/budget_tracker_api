@@ -15,26 +15,18 @@ datasource db {
 }
 
 model User {
-    id            String          @id @default(uuid())
-    email         String          @unique
-    password_hash String
-    SubCategories SubCategories[]
-    Expenses      Expenses[]
-
-    budget        BudgetSplit @relation(fields: [budgetSplitId], references: [id])
-    budgetSplitId String
-
-    @@map("users")
-}
-
-model BudgetSplit {
     id                 String @id @default(uuid())
+    name               String
+    email              String @unique
+    password_hash      String
     needs_percentage   Float
     wants_percentage   Float
     savings_percentage Float
-    User               User[]
 
-    @@map("budget_splits")
+    SubCategories SubCategories[]
+    Expenses      Expenses[]
+
+    @@map("users")
 }
 
 enum Categories {
