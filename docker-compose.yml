@@ -1,0 +1,11 @@
+name: budget_tracker_api
+
+services:
+  db:
+    image: postgres:17-alpine
+    ports:
+      - "5432:5432"
+    restart: no
+    environment:
+      POSTGRES_PASSWORD: changemeinprod
+      TZ: Asia/Kolkata

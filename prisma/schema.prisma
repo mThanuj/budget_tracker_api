@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+    provider = "prisma-client-js"
+    output   = "../src/generated/prisma"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    id            String          @id @default(uuid())
+    email         String          @unique
+    password_hash String
+    SubCategories SubCategories[]
+    Expenses      Expenses[]
+
+    budget        BudgetSplit @relation(fields: [budgetSplitId], references: [id])
+    budgetSplitId String
+
+    @@map("users")
+}
+
+model BudgetSplit {
+    id                 String @id @default(uuid())
+    needs_percentage   Float
+    wants_percentage   Float
+    savings_percentage Float
+    User               User[]
+
+    @@map("budget_splits")
+}
+
+enum Categories {
+    NEEDS
+    WANTS
+    SAVINGS
+
+    @@map("categories")
+}
+
+model SubCategories {
+    id   String @id @default(uuid())
+    name String
+
+    category Categories
+
+    user     User       @relation(fields: [userId], references: [id])
+    userId   String
+    Expenses Expenses[]
+
+    @@map("sub_categories")
+}
+
+model Expenses {
+    id String @id @default(uuid())
+
+    amount      Float
+    description String
+
+    user   User   @relation(fields: [userId], references: [id])
+    userId String
+
+    subCategory     SubCategories @relation(fields: [subCategoriesId], references: [id])
+    subCategoriesId String
+
+    @@map("expenses")
+}
