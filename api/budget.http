@@ -1,0 +1,17 @@
+### Get budget percentages of user
+
+GET {{host}}/budget HTTP/1.1
+Authorization: Bearer {{token}}
+
+
+### Update budget percentages of user
+
+PUT {{host}}/budget HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "needs_percentage": 40,
+  "wants_percentage": 35,
+  "savings_percentage": 25
+}
