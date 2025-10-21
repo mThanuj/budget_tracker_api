@@ -3,7 +3,7 @@ import { UserInfoRequest } from "../types/UserInfoRequest";
 import { Categories } from "../generated/prisma";
 import { prisma } from "../config/prisma";
 
-const isValidCategory = (
+export const isValidCategory = (
     category: string | null,
 ): Categories | undefined | string => {
     if (category === null) {
@@ -22,7 +22,7 @@ export const createSubCategory = async (
 
         const validCategory = isValidCategory(category);
 
-        if (!validCategory || typeof validCategory === "string") {
+        if (!validCategory || validCategory === "NA") {
             return res.status(400).json({
                 success: false,
                 error: "Invalid category",
@@ -46,7 +46,7 @@ export const createSubCategory = async (
         const createdSubCategory = await prisma.subCategories.create({
             data: {
                 name,
-                category: validCategory,
+                category: validCategory as Categories,
                 userId: req.user!.id,
             },
             select: {

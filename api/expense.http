@@ -1,0 +1,38 @@
+### Create an expense
+
+POST {{host}}/expenses HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "amount": 20.0,
+  "subCategoryId": "{{subCategoryId}}",
+  "description": "Some Description"
+}
+
+> {%
+   client.global.set("expenseId", response.body.expense.id) 
+%}
+
+
+### Get all expenses in a given month and year
+
+GET {{host}}/expenses?month=10&year=2025 HTTP/1.1
+Authorization: Bearer {{token}}
+
+
+### Update expense
+
+PUT {{host}}/expenses/{{expenseId}} HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "amount": 100.8
+}
+
+
+### Delete expense
+
+DELETE {{host}}/expenses/{{expenseId}} HTTP/1.1
+Authorization: Bearer {{token}}
