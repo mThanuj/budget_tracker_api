@@ -204,6 +204,22 @@ export const deleteExpense = async (req: UserInfoRequest, res: Response) => {
             });
         }
 
+        const existingExpenseDateYear = existingExpense.date.getFullYear();
+        const currentDateYear = new Date().getFullYear();
+
+        const existingExpenseDateMonth = existingExpense.date.getMonth();
+        const currentDateMonth = new Date().getMonth();
+
+        if (
+            currentDateMonth !== existingExpenseDateMonth ||
+            currentDateYear !== existingExpenseDateYear
+        ) {
+            return res.status(403).json({
+                success: false,
+                error: "Cannot delete expense from other months",
+            });
+        }
+
         const deletedExpense = await prisma.expenses.delete({
             where: {
                 id,
