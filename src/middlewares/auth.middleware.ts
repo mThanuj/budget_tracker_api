@@ -1,8 +1,9 @@
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import { UserInfoRequest } from "../types/UserInfoRequest";
 
 export const authMiddleware = async (
-    req: Request,
+    req: UserInfoRequest,
     res: Response,
     next: NextFunction,
 ) => {
@@ -23,7 +24,7 @@ export const authMiddleware = async (
             });
         }
 
-        const token = header.substring(8);
+        const token = header.substring(7);
 
         let payload = jwt.verify(token, process.env.JWT_SECRET!);
 

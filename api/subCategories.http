@@ -1,0 +1,38 @@
+### Create a sub category
+
+POST {{host}}/sub-categories HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "category": "NEEDS",
+  "name": "Groceries"
+}
+
+> {%
+    client.global.set("subCategoryId", response.body.subCategory.id)
+%}
+
+
+### Get all sub categories
+
+GET {{host}}/sub-categories HTTP/1.1
+Authorization: Bearer {{token}}
+
+
+### Update a sub category
+
+PUT {{host}}/sub-categories/{{subCategoryId}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "groceries"
+}
+
+
+### Delete a sub category
+
+DELETE {{host}}/sub-categories/{{subCategoryId}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
